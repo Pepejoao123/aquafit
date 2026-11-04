@@ -20,7 +20,7 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - uses: android-actions/setup-android@v3
+      # O runner ubuntu-latest já vem com o Android SDK instalado (ANDROID_HOME).
 
       - name: Instalar dependências
         run: npm install
@@ -64,6 +64,7 @@ jobs:
           path: android/app/build/outputs/apk/debug/AquaFit.apk
 
   # Versão web (PC e celular pelo navegador) no GitHub Pages
+  # Ative antes em Settings → Pages → Source: GitHub Actions
   pages:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -76,8 +77,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: www

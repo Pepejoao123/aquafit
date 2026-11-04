@@ -1,0 +1,22 @@
+{
+  "name": "aquafit",
+  "version": "1.4.0",
+  "private": true,
+  "description": "Controle de hidratação, refeições e macronutrientes — PWA + APK Android (Capacitor)",
+  "scripts": {
+    "serve": "npx --yes http-server www -p 8080 -c-1",
+    "android:init": "npx cap add android && npx capacitor-assets generate --android --assetPath assets && node scripts/patch-android.js",
+    "android:sync": "npx cap sync android",
+    "android:open": "npx cap open android",
+    "apk": "npx cap sync android && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/local-notifications": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^4.0.0",
+    "@capacitor/cli": "^8.0.0"
+  }
+}

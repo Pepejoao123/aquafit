@@ -1,0 +1,85 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Gerar projeto Android + ícones
+        run: |
+          if [ ! -d android ]; then npx cap add android; fi
+          npx capacitor-assets generate --android --assetPath assets
+          node scripts/patch-android.js
+          npx cap sync android
+
+      - name: Chave de assinatura fixa (permite atualizar o app sem desinstalar)
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_DEBUG_KEYSTORE }}
+        run: |
+          mkdir -p ~/.android
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > ~/.android/debug.keystore
+            echo "Usando a chave do secret ANDROID_DEBUG_KEYSTORE"
+          else
+            echo "::warning::Secret ANDROID_DEBUG_KEYSTORE não configurado — o APK terá assinatura diferente a cada build e não poderá atualizar o app instalado."
+          fi
+
+      - name: Versão do app (número da execução)
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          sed -i -E "s/versionCode [0-9]+/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]*\"/versionName \"$VERSION\"/" android/app/build.gradle
+          grep -E "versionCode|versionName" android/app/build.gradle
+
+      - name: Compilar APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/AquaFit.apk
+
+      - name: Publicar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: AquaFit-apk
+          path: android/app/build/outputs/apk/debug/AquaFit.apk
+
+  # Versão web (PC e celular pelo navegador) no GitHub Pages
+  pages:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: www
+      - id: deploy
+        uses: actions/deploy-pages@v4

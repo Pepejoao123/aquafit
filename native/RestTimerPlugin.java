@@ -26,11 +26,21 @@ public class RestTimerPlugin extends Plugin {
     @PluginMethod
     public void start(PluginCall call) {
         int ms = Math.max(0, call.getInt("ms", 90000));
-        boolean paused = call.getBoolean("paused", false);
-        String label = call.getString("label", "");
-        Context ctx = getContext();
+        if (show(getContext(), ms, call.getBoolean("paused", false), call.getString("label", ""))) call.resolve();
+        else call.reject("Sem permissão de notificação");
+    }
+
+    @PluginMethod
+    public void stop(PluginCall call) {
+        cancel(getContext());
+        call.resolve();
+    }
+
+    /** Mostra/atualiza a notificação contínua (usado pelo app e pelo widget de descanso). */
+    static boolean show(Context ctx, int ms, boolean paused, String label) {
         NotificationManager nm = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (nm == null) { call.reject("NotificationManager indisponível"); return; }
+        if (nm == null) return false;
+        if (label == null) label = "";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && nm.getNotificationChannel(CHANNEL) == null) {
             NotificationChannel ch = new NotificationChannel(CHANNEL, "Timer de descanso", NotificationManager.IMPORTANCE_LOW);
@@ -73,17 +83,15 @@ public class RestTimerPlugin extends Plugin {
 
         try {
             nm.notify(NOTIF_ID, b.build());
-            call.resolve();
+            return true;
         } catch (SecurityException e) {
-            call.reject("Sem permissão de notificação");
+            return false;
         }
     }
 
-    @PluginMethod
-    public void stop(PluginCall call) {
-        NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+    static void cancel(Context ctx) {
+        NotificationManager nm = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         if (nm != null) nm.cancel(NOTIF_ID);
-        call.resolve();
     }
 
     private static String fmt(int ms) {

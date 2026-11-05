@@ -87,6 +87,14 @@ Também dá para adicionar alimentos manualmente, sem IA, escolhendo a medida.
 - Notificações do descanso (APK): uma notificação fixa com **contagem regressiva ao vivo** (cronômetro nativo do Android, roda com o app fechado/tela bloqueada) e, no fim, outra notificação "✅ Descanso acabou" com som/vibração.
   A contagem ao vivo vem do plugin nativo local `native/RestTimerPlugin.java`, instalado no projeto Android por `scripts/patch-android.js`.
 
+## Widgets da tela inicial (APK)
+
+Perfil → **Widgets** → **Adicionar à tela inicial** (ou segure a tela inicial → Widgets → FitPro). Os dois mostram a **frase do dia** no topo:
+- **Hidratação**: água de hoje com barra de progresso e botões **+250 ml / +500 ml** (registra sem abrir o app; o app incorpora ao abrir).
+- **Descanso**: contagem regressiva ao vivo e botões **1:00 / 1:30 / 2:00 / ✕**; avisa quando o descanso acaba e o app continua a contagem se estiver aberto.
+
+Código nativo em `native/` (`WaterWidget`, `RestWidget`, `FitWidgets`, `RestAlarmReceiver`, plugin `FitWidget`); layouts e registros no manifest são gerados por `scripts/patch-android.js`.
+
 ## Contas e sincronização
 
 - Login por e-mail e senha (Firebase Auth), cadastro em etapas e redefinição de senha por e-mail.

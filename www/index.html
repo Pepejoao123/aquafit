@@ -405,6 +405,23 @@ body.authing{overflow:hidden}
 .done-ico{font-size:58px;text-align:center;margin:36px 0 8px;animation:pop .8s var(--ease)}
 .pf-avatar{position:relative;overflow:hidden}
 .pf-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* ================= Widgets (prévia) ================= */
+.wg-card{margin-bottom:12px}
+.wg-prev{background:#0c0d10;border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:14px;color:#fff;margin-bottom:10px;box-shadow:var(--shadow)}
+.wg-ph{margin:0;font-size:12px;font-style:italic;color:rgba(255,255,255,.9);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.wg-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.wg-row .grow{flex:1;min-width:0}
+.wg-row small{display:block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#5cf25c}
+.wg-row b{font-size:17px}
+.wg-ico{font-size:22px}
+.wg-pct{color:#4d8dff;font-size:15px}
+.wg-bar{height:8px;border-radius:6px;background:rgba(77,141,255,.2);margin-top:8px;overflow:hidden}
+.wg-bar i{display:block;height:100%;background:#4d8dff;border-radius:6px}
+.wg-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.wg-btns.rest{grid-template-columns:repeat(4,1fr);gap:6px}
+.wg-btns span{height:38px;border-radius:14px;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:13px;font-weight:700;color:#4d8dff}
+.wg-btns.rest span{color:#22d3ee}
+.wg-btns.rest span:last-child{color:#ff5a5f}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -681,6 +698,7 @@ body.authing{overflow:hidden}
       <div class="menu">
         <button type="button" class="mi-row" data-pane="aparencia"><span class="mi" style="--ic:var(--f)"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.8 1.5-1.5 0-1-.8-1.3-.8-2.2 0-.8.7-1.3 1.5-1.3H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></svg></span><span class="grow"><b>Aparência</b><small id="subLook"></small></span><span class="chev">›</span></button>
         <button type="button" class="mi-row" data-pane="notif"><span class="mi" style="--ic:var(--warn)"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span><span class="grow"><b>Notificações</b><small id="subNotif"></small></span><span class="chev">›</span></button>
+        <button type="button" class="mi-row" data-pane="widgets" id="rowWidgets" hidden><span class="mi" style="--ic:var(--gym)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="18" height="8" rx="2"/></svg></span><span class="grow"><b>Widgets</b><small>Hidratação e descanso na tela inicial</small></span><span class="chev">›</span></button>
       </div>
 
       <p class="pf-foot">FitPro</p>
@@ -791,6 +809,21 @@ body.authing{overflow:hidden}
       <p class="small muted" id="remInfo" style="margin:12px 4px"></p>
       <button class="btn primary block" id="remSave">Salvar</button>
       <button class="btn block" id="exactBtn" style="margin-top:8px;display:none">⏱️ Permitir horário exato</button>
+    </div>
+
+    <!-- Widgets -->
+    <div class="pane" data-p="widgets" hidden>
+      <div class="pane-head"><button type="button" class="back" data-back aria-label="Voltar">‹</button><h2>Widgets</h2></div>
+      <p class="small muted" style="margin:0 4px 12px">Acompanhe sem abrir o app. Os dois mostram a frase do dia no topo.</p>
+      <div class="wg-card">
+        <div class="wg-prev"><p class="wg-ph" data-wg-phrase></p><div class="wg-row"><span class="wg-ico">💧</span><span class="grow"><small>HIDRATAÇÃO</small><b id="wgWater">0 ml de 2,5 L</b></span><b class="wg-pct" id="wgPct">0%</b></div><div class="wg-bar"><i id="wgBar"></i></div><div class="wg-btns"><span>+250 ml</span><span>+500 ml</span></div></div>
+        <button type="button" class="btn primary block" data-pin="water">＋ Adicionar à tela inicial</button>
+      </div>
+      <div class="wg-card">
+        <div class="wg-prev"><p class="wg-ph" data-wg-phrase></p><div class="wg-row"><span class="wg-ico">⏱️</span><span class="grow"><small>DESCANSO</small><b style="color:#22d3ee;font-size:21px">1:30</b></span></div><div class="wg-btns rest"><span>1:00</span><span>1:30</span><span>2:00</span><span>✕</span></div></div>
+        <button type="button" class="btn primary block" data-pin="rest">＋ Adicionar à tela inicial</button>
+      </div>
+      <p class="small muted" style="margin:14px 4px 0">Se o botão não funcionar no seu celular: segure um espaço vazio da tela inicial → <b>Widgets</b> → <b>FitPro</b> e arraste o widget.</p>
     </div>
 
     <!-- Conta -->
@@ -1143,6 +1176,13 @@ function openPane(p) {
   $$('.pane').forEach(x => x.hidden = x.dataset.p !== p);
   if (!p) renderProfileMenu();
   if (p === 'conta') fillAccount();
+  if (p === 'widgets') {
+    const t = targets(), w = sums(peekDay(todayKey())).water, g = t ? t.water : 2500;
+    const L = v => v >= 1000 ? (v / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' L' : v + ' ml';
+    $$('[data-wg-phrase]').forEach(e => e.textContent = phraseFor(todayKey()));
+    $('#wgWater').textContent = `${L(w)} de ${L(g)}`; $('#wgPct').textContent = Math.min(100, Math.round(w / g * 100)) + '%';
+    $('#wgBar').style.width = Math.min(100, w / g * 100) + '%';
+  }
   window.scrollTo(0, 0);
 }
 $$('#v-perfil [data-pane]').forEach(b => b.onclick = () => openPane(b.dataset.pane));
@@ -1298,17 +1338,27 @@ $('#mealForm').onsubmit = e => {
 
 /* ============ IA: foto do prato → alimentos ============ */
 const GEMINI_KEY = (window.FITPRO_CONFIG || {}).geminiKey || '';
+// Reduz a foto para 1024 px em JPEG. Se o WebView não conseguir abrir o formato (ex.: HEIC de
+// celulares Samsung/Xiaomi), envia o arquivo original — o Gemini aceita HEIC/HEIF/WebP/PNG.
 async function prepImage(file) {
   const url = URL.createObjectURL(file);
   try {
-    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('decode')); i.src = url; });
+    if (!img.naturalWidth) throw new Error('decode');
     const sc = Math.min(1, 1024 / Math.max(img.naturalWidth, img.naturalHeight));
     const cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * sc); cv.height = Math.round(img.naturalHeight * sc);
     cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
     const dataUrl = cv.toDataURL('image/jpeg', 0.82);
+    if (!/^data:image\/jpeg;base64,./.test(dataUrl)) throw new Error('decode');
     const blob = await new Promise(res => cv.toBlob(res, 'image/jpeg', 0.82));
-    return { dataUrl, b64: dataUrl.split(',')[1], blob };
-  } finally { URL.revokeObjectURL(url); }
+    return { dataUrl, b64: dataUrl.split(',')[1], blob, mime: 'image/jpeg' };
+  } catch (e) {
+    if (file.size > 14e6) throw new Error('Foto muito grande para enviar. Tente outra foto ou tire pela câmera do app.');
+    const raw = await new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result)); fr.onerror = () => rej(new Error('Não consegui ler a foto do celular.')); fr.readAsDataURL(file); });
+    const name = (file.name || '').toLowerCase();
+    const mime = file.type && file.type.startsWith('image/') ? file.type : name.endsWith('.heif') ? 'image/heif' : 'image/heic';
+    return { dataUrl: url, b64: raw.split(',')[1], blob: file, mime };
+  } finally { setTimeout(() => URL.revokeObjectURL(url), 60000); }
 }
 function aiPrompt(note, hasImage) {
   return `Você é um nutricionista brasileiro. ${hasImage ? 'Analise a foto do prato e identifique cada alimento visível. Estime as quantidades considerando um prato raso padrão (~24 cm).' : 'A partir da descrição abaixo, identifique cada alimento e a quantidade.'}
@@ -1329,10 +1379,11 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 async function aiFetch(url, opts) {
   let res;
   try { res = await fetch(url, opts); }
-  catch (e) { return { ok: false, status: 0, retry: true, msg: 'Sem conexão com a IA.' }; }
+  catch (e) { return { ok: false, status: 0, retry: true, msg: 'Sem conexão com a IA — verifique a internet.' }; }
   const j = await res.json().catch(() => ({}));
   if (res.ok) return { ok: true, j };
-  return { ok: false, status: res.status, retry: AI_RETRY.has(res.status), msg: j.error?.message || 'Erro ' + res.status };
+  const why = { 400: 'pedido recusado', 401: 'chave inválida', 403: 'chave sem permissão', 404: 'modelo indisponível', 429: 'limite de uso atingido' }[res.status];
+  return { ok: false, status: res.status, retry: AI_RETRY.has(res.status), msg: `${why ? why[0].toUpperCase() + why.slice(1) + ': ' : ''}${j.error?.message || 'erro'} (HTTP ${res.status})` };
 }
 // Tenta cada modelo algumas vezes com espera crescente; troca de modelo se continuar sobrecarregado
 async function aiTry(models, call, onStatus) {
@@ -1355,7 +1406,7 @@ async function aiCall(prompt, img, onStatus) {
   const ai = S.settings.ai, key = GEMINI_KEY || ai.key;
   if (!key) throw new Error('IA indisponível nesta versão (chave não incluída no build).');
   const parts = [{ text: prompt }];
-  if (img) parts.push({ inline_data: { mime_type: 'image/jpeg', data: img.b64 } });
+  if (img) parts.push({ inline_data: { mime_type: img.mime || 'image/jpeg', data: img.b64 } });
   // Flash-Lite primeiro (menos sobrecarregado); Flash como reserva
   const models = ['gemini-flash-lite-latest', 'gemini-flash-latest'];
   const j = await aiTry(models, model => aiFetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
@@ -1454,6 +1505,7 @@ function renderToday() {
     pace = s.water + 100 >= expected ? `<span class="pill ok">No ritmo</span>` : `<span class="pill warn">Faltam ${fmt(goal - s.water)} ml</span>`;
   } else pace = `<span class="pill">Faltaram ${fmt(goal - s.water)} ml</span>`;
   $('#waterPace').innerHTML = pace;
+  if (isToday) widgetSync();
   $('#waterList').innerHTML = d.water.length
     ? d.water.slice().reverse().map(w => `<li><span>💧</span><div class="grow"><div class="title">${w.ml} ml</div></div><span class="muted small">${hhmm(w.t)}</span><button class="x" data-delw="${w.id}" aria-label="Remover">×</button></li>`).join('')
     : '';
@@ -1858,6 +1910,45 @@ function beep() {
   } catch (e) {}
 }
 const RT = (() => { try { return window.Capacitor && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins.RestTimer; } catch (e) { return null; } })();
+
+/* ============ Widgets da tela inicial (APK) ============
+   O app envia água de hoje, meta, frases e o estado do descanso; o widget devolve a água registrada
+   nele (+250/+500 ml) e o descanso iniciado na tela inicial. */
+const WB = (() => { try { return window.Capacitor && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins.FitWidget; } catch (e) { return null; } })();
+let widgetLast = '';
+function widgetSync(stop) {
+  if (!WB) return;
+  const tk = todayKey(), t = targets(), phrases = {};
+  for (let i = 0; i < 30; i++) { const k = addDays(tk, i); phrases[k] = phraseFor(k); }
+  const running = REST && !REST.doneAt && !REST.paused;
+  const msg = { day: tk, waterMl: sums(peekDay(tk)).water, goalMl: t ? t.water : 2500, phrases: JSON.stringify(phrases),
+    restEnd: running ? REST.end : 0, restTotal: REST ? REST.total : 0, restPausedMs: REST && REST.paused && !REST.doneAt ? Math.round(REST.remain) : 0, restStop: !!stop };
+  const key = JSON.stringify(msg);
+  if (key === widgetLast) return;
+  widgetLast = key;
+  WB.update(msg).catch(() => { widgetLast = ''; });
+}
+async function widgetPull() {
+  if (!WB) return;
+  try {
+    const r = await WB.takePending(), list = JSON.parse(r.water || '[]');
+    if (list.length) {
+      let total = 0;
+      list.forEach(w => { day(dayKey(new Date(w.t))).water.push({ id: uid(), ml: w.ml, t: w.t }); total += w.ml; });
+      save(); renderToday();
+      toast(`💧 ${fmt(total)} ml registrados pelo widget`);
+    }
+    if (r.restEnd > Date.now() && (!REST || REST.doneAt)) { // descanso iniciado no widget: continua no app
+      REST = { end: r.restEnd, total: r.restTotal || r.restEnd - Date.now(), paused: false, remain: 0, doneAt: 0 };
+      tickRest();
+    }
+  } catch (e) { console.warn('widget', e); }
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') widgetPull(); });
+$$('[data-pin]').forEach(b => b.onclick = async () => {
+  try { const r = await WB.pin({ kind: b.dataset.pin }); if (!r.ok) toast('Segure a tela inicial → Widgets → FitPro', null, '', 6000); }
+  catch (e) { toast('Segure a tela inicial → Widgets → FitPro', null, '', 6000); }
+});
 let restSetup = null;
 function setupRestNotif() { // 1ª vez: permissão + canal de alta prioridade para o "acabou"
   if (!restSetup) restSetup = (async () => {
@@ -1874,6 +1965,7 @@ function setupRestNotif() { // 1ª vez: permissão + canal de alta prioridade pa
 //  1) notificação contínua com contagem regressiva ao vivo (plugin nativo RestTimer)
 //  2) notificação "descanso acabou" agendada para o horário exato do fim
 async function restNotif() {
+  widgetSync();
   if (!LN) return;
   try {
     await setupRestNotif();
@@ -1923,8 +2015,8 @@ function pauseRest() {
 }
 function stopRest(auto) {
   REST = null;
-  if (auto) { if (RT) RT.stop().catch(() => {}); } // fim natural: mantém o aviso "acabou" na barra
-  else restNotif();
+  if (auto) { if (RT) RT.stop().catch(() => {}); widgetSync(); } // fim natural: mantém o aviso "acabou" na barra
+  else { widgetSync(true); restNotif(); }
   tickRest();
 }
 function tickRest() {
@@ -2309,6 +2401,7 @@ fillProfileForm(); renderTargets(); fillReminders(); renderToday();
 if (!S.profile && !(FIREBASE_CONFIG && !session())) { showView('perfil'); openPane('dados'); }
 else if (LN) applyNotifications(); // reagenda ao abrir (garante após atualização do app)
 bootAuth();
+if (WB) { $('#rowWidgets').hidden = false; widgetPull(); }
 let lastToday = todayKey();
 setInterval(() => { const t = todayKey(); if (t !== lastToday) { if (cur === lastToday) cur = t; lastToday = t; } renderToday(); }, 60000);
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') renderToday(); });

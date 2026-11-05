@@ -18,6 +18,16 @@ const HEADER_COLOR = '#16a34a';
 
 function doGet() { return out_({ ok: true, app: 'FitPro' }); }
 
+// Rode esta função UMA vez no editor (seletor de funções → testarPermissao → Executar) para autorizar
+// o script a validar os logins no Firebase. Depois: Implantar → Gerenciar implantações → Nova versão.
+function testarPermissao() {
+  const r = UrlFetchApp.fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + FIREBASE_API_KEY, {
+    method: 'post', contentType: 'application/json', payload: '{}', muteHttpExceptions: true
+  });
+  SpreadsheetApp.getActive();
+  Logger.log('Permissões OK — resposta do Firebase: ' + r.getResponseCode() + ' (400 é o esperado neste teste)');
+}
+
 function doPost(e) {
   let b = {};
   try { b = JSON.parse(e.postData.contents); } catch (err) {}

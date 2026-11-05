@@ -87,22 +87,16 @@ Também dá para adicionar alimentos manualmente, sem IA, escolhendo a medida.
 - Notificações do descanso (APK): uma notificação fixa com **contagem regressiva ao vivo** (cronômetro nativo do Android, roda com o app fechado/tela bloqueada) e, no fim, outra notificação "✅ Descanso acabou" com som/vibração.
   A contagem ao vivo vem do plugin nativo local `native/RestTimerPlugin.java`, instalado no projeto Android por `scripts/patch-android.js`.
 
-## Google Sheets como banco de dados
+## Contas e sincronização
 
-Perfil → **Google Sheets**:
-1. Crie uma planilha (`sheets.new`) → **Extensões → Apps Script** → apague tudo e cole o script do botão **📋 Copiar script** (já vem com seu token).
-2. **Implantar → Nova implantação → App da Web** · Executar como: *Eu* · Acesso: *Qualquer pessoa* → copie a URL `…/exec`.
-3. Cole a URL no app → **Conectar**.
-4. No outro aparelho: no primeiro, toque **🔗 Código p/ outro aparelho** e cole esse código (URL#token) no campo de URL do segundo → **Conectar**.
+- Login por e-mail e senha (Firebase Auth), cadastro em etapas e redefinição de senha por e-mail.
+- Os dados de cada usuário ficam no Firestore (`users/{uid}` + `users/{uid}/months/{AAAA-MM}`) e sincronizam entre app e site. Regras em `firestore.rules`.
 
-Como funciona:
-- O Apps Script vira uma API (`doPost`). A cada sincronização o app envia o estado; o script **mescla** com o que já está salvo e devolve o resultado — celular e PC podem registrar ao mesmo tempo sem perder nada (registros unidos por id; exclusões propagadas).
-- Abas geradas: **Resumo** (por dia), **Água**, **Refeições** (com alimentos), **Treinos** (por série), **Perfil** (dados e metas). O estado completo fica na aba oculta `_dados`.
-- Sincroniza ao abrir o app, ~4 s após cada mudança, a cada 5 min e ao sair (envio em segundo plano). Ícone ☁️ no topo mostra o status e sincroniza ao tocar.
-- Chave da IA e configuração do Sheets nunca vão para a planilha. O token impede que outras pessoas leiam/gravem pela URL.
-- O script está também em `apps-script/Code.gs` (troque o token pelo do app).
+## Planilha central (Google Sheets)
 
-## Dados e sincronização
-
-Os dados ficam no aparelho (localStorage). Para levar entre celular e PC, use **Perfil → Backup** (copiar/colar ou arquivo JSON).
-Próximo passo natural se quiser sincronização automática: backend leve (Supabase ou Firebase) com login.
+Todos os usuários enviam para a mesma planilha, sem configuração no app:
+- A cada **30 s**, se houver algo novo, o app envia os dados do usuário logado para o Apps Script (`SHEETS_URL` no `index.html`). Ao fechar o app, o pendente vai por `sendBeacon`.
+- Cada envio leva o token da conta Firebase; o script valida o token, então ninguém grava em nome de outra pessoa.
+- Abas geradas, com colunas **Usuário** e **E-mail**: **Resumo**, **Água**, **Refeições**, **Treinos**, **Perfil**. Os dados brutos ficam na aba oculta `_usuarios`.
+- A planilha é só relatório: o app nunca lê dela (a fonte dos dados é o Firestore).
+- Código do script: `apps-script/Code.gs`. Para atualizar mantendo a URL: **Implantar → Gerenciar implantações → lápis → Versão: Nova versão → Implantar**.

@@ -553,7 +553,6 @@ body.authing{overflow:hidden}
 
 <header><div class="in">
   <div class="brand"><i><svg viewBox="0 0 1024 1024" aria-hidden="true"><g fill="#fff" stroke="#fff" stroke-width="16" stroke-linejoin="round" transform="translate(512 512) scale(.92) translate(-512 -503)"><polygon points="164,415 247,388 203,609 127,592"/><polygon points="295,300 389,291 305,715 221,653"/><polygon points="380,477 654,473 662,547 371,551"/><polygon points="635,291 729,300 803,653 719,715"/><polygon points="777,388 860,415 897,592 821,609"/></g></svg></i><span class="wordmark">Fit<em>Pro</em></span></div>
-  <button class="syncdot" id="syncDot" hidden aria-label="Sincronizar com Google Sheets"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .4-9A6 6 0 0 0 6.2 8.7 5 5 0 0 0 6.5 19z"/></svg><span id="syncDotTxt"></span></button>
   <div class="datenav" id="datenav">
     <button id="prevDay" aria-label="Dia anterior">‹</button>
     <span id="dateLabel">Hoje</span>
@@ -684,11 +683,6 @@ body.authing{overflow:hidden}
         <button type="button" class="mi-row" data-pane="notif"><span class="mi" style="--ic:var(--warn)"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span><span class="grow"><b>Notificações</b><small id="subNotif"></small></span><span class="chev">›</span></button>
       </div>
 
-      <div class="pf-title">Dados</div>
-      <div class="menu">
-        <button type="button" class="mi-row" data-pane="sheets"><span class="mi" style="--ic:var(--ok)"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></svg></span><span class="grow"><b>Google Sheets</b><small id="subSheets"></small></span><span class="chev">›</span></button>
-        <button type="button" class="mi-row" data-pane="backup"><span class="mi" style="--ic:var(--muted)"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></span><span class="grow"><b>Backup</b><small>Exportar, importar ou apagar</small></span><span class="chev">›</span></button>
-      </div>
       <p class="pf-foot">FitPro</p>
     </div>
 
@@ -816,46 +810,6 @@ body.authing{overflow:hidden}
       </div>
     </div>
 
-    <!-- Google Sheets -->
-    <div class="pane" data-p="sheets" hidden>
-      <div class="pane-head"><button type="button" class="back" data-back aria-label="Voltar">‹</button><h2>Google Sheets</h2><span class="sub" id="syncStatus"></span></div>
-      <div class="card">
-        <div id="syncSetup">
-          <ol class="steps small">
-            <li>Crie uma planilha: <a href="https://sheets.new" target="_blank" rel="noopener" style="color:var(--accent-ink);font-weight:700">sheets.new ↗</a></li>
-            <li><b>Extensões → Apps Script</b> · apague tudo e cole <button class="btn sm" id="copyScript" type="button">📋 Copiar script</button></li>
-            <li><b>Implantar → Nova implantação → App da Web</b> · Executar como: <b>Eu</b> · Acesso: <b>Qualquer pessoa</b></li>
-            <li>Cole a URL do app da Web <span class="muted">(ou o código de outro aparelho)</span>:</li>
-          </ol>
-          <input id="syncUrl" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off">
-          <button class="btn primary block" id="syncConnect" style="margin-top:8px">Conectar</button>
-        </div>
-        <div id="syncOn" hidden>
-          <p class="small muted" style="margin:0 0 10px">Resumo · Água · Refeições · Treinos · Perfil</p>
-          <div class="row">
-            <button class="btn primary" id="syncNowBtn">⟳ Sincronizar</button>
-            <a class="btn" id="syncOpen" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">↗ Planilha</a>
-          </div>
-          <button class="btn block" id="syncCode" style="margin-top:8px">🔗 Código p/ outro aparelho</button>
-          <button class="btn ghost block danger" id="syncOff" style="margin-top:8px">Desconectar</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Backup -->
-    <div class="pane" data-p="backup" hidden>
-      <div class="pane-head"><button type="button" class="back" data-back aria-label="Voltar">‹</button><h2>Backup</h2><span class="sub">celular ⇄ PC</span></div>
-      <div class="card">
-        <div class="row">
-          <button class="btn" id="exportFile">⬇️ Baixar</button>
-          <button class="btn" id="importFileBtn">⬆️ Importar</button>
-          <button class="btn" id="copyBackup">📋 Copiar</button>
-          <button class="btn" id="pasteBackup">📥 Colar</button>
-        </div>
-        <input type="file" id="importFile" accept="application/json,.json" hidden>
-      </div>
-      <button class="btn ghost danger block" style="margin-top:12px" id="resetAll">Apagar todos os dados</button>
-    </div>
   </section>
 </main>
 
@@ -912,19 +866,6 @@ body.authing{overflow:hidden}
   <div class="pv-hint">Toque na foto para aproximar</div>
 </dialog>
 
-<dialog id="dlgPaste"><form class="inner" id="pasteForm">
-  <h2>📥 Colar backup</h2>
-  <p class="small muted">Substitui os dados atuais.</p>
-  <textarea name="json" rows="6" required></textarea>
-  <div class="actions"><button type="button" class="btn ghost" data-close>Cancelar</button><button class="btn primary">Importar</button></div>
-</form></dialog>
-
-<dialog id="dlgReset"><form class="inner" id="resetForm">
-  <h2>Apagar tudo?</h2>
-  <p class="muted">Perfil, metas e histórico deste aparelho.</p>
-  <div class="actions"><button type="button" class="btn ghost" data-close>Cancelar</button><button class="btn primary" style="background:var(--bad);box-shadow:none">Apagar</button></div>
-</form></dialog>
-
 <div class="restbar" id="restbar">
   <button class="btn sm" id="restMinus">−15</button>
   <span class="sp"></span><span class="t" id="restTime">1:30</span><span class="sp"></span>
@@ -935,120 +876,6 @@ body.authing{overflow:hidden}
 </div>
 
 <div class="toast" id="toast"><span id="toastMsg"></span><button id="toastAct">Desfazer</button></div>
-
-<script type="text/plain" id="gsTemplate">
-/**
- * FitPro — API de sincronização (Google Apps Script)
- * Cole este código em Extensões → Apps Script da sua planilha e implante como App da Web
- * (Executar como: Eu · Acesso: Qualquer pessoa). O TOKEN protege seus dados.
- */
-const TOKEN = '__TOKEN__';
-
-function doGet(e) { return handle_((e && e.parameter) || {}); }
-function doPost(e) {
-  let body = {};
-  try { body = JSON.parse(e.postData.contents); } catch (err) {}
-  return handle_(body);
-}
-
-function handle_(b) {
-  if (!b.token || b.token !== TOKEN) return out_({ ok: false, error: 'token' });
-  const ss = SpreadsheetApp.getActive();
-  if (b.action === 'ping') return out_({ ok: true, url: ss.getUrl(), name: ss.getName() });
-  if (b.action !== 'sync') return out_({ ok: false, error: 'action' });
-  const lock = LockService.getScriptLock();
-  lock.waitLock(25000);
-  try {
-    const merged = mergeState(readState_(), b.data || null);
-    if (merged) {
-      writeTables_(merged, b.targets || null, b.tz || ss.getSpreadsheetTimeZone());
-      writeState_(merged);
-    }
-    return out_({ ok: true, data: merged, url: ss.getUrl() });
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-function out_(o) {
-  return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
-}
-
-/* ---------- estado completo (aba oculta _dados, em pedaços de texto) ---------- */
-function readState_() {
-  const sh = SpreadsheetApp.getActive().getSheetByName('_dados');
-  if (!sh || sh.getLastRow() < 1) return null;
-  const txt = sh.getRange(1, 1, sh.getLastRow(), 1).getValues().map(function (r) { return String(r[0]).slice(1); }).join('');
-  try { return JSON.parse(txt); } catch (e) { return null; }
-}
-function writeState_(data) {
-  const ss = SpreadsheetApp.getActive();
-  const sh = ss.getSheetByName('_dados') || ss.insertSheet('_dados');
-  const txt = JSON.stringify(data), rows = [];
-  for (let i = 0; i < txt.length; i += 40000) rows.push(['#' + txt.slice(i, i + 40000)]); // "#" evita virar fórmula/número
-  sh.clearContents();
-  sh.getRange(1, 1, rows.length, 1).setNumberFormat('@').setValues(rows);
-  try { if (!sh.isSheetHidden()) sh.hideSheet(); } catch (e) {}
-}
-
-/* ---------- abas legíveis ---------- */
-function writeTables_(d, t, tz) {
-  const days = Object.keys(d.days || {}).sort().reverse();
-  const date = function (k) { const p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); };
-  const hora = function (ms) { return Utilities.formatDate(new Date(ms), tz, 'HH:mm'); };
-  const r1 = function (n) { return Math.round((+n || 0) * 10) / 10; };
-  const TIPOS = { cafe: 'Café da manhã', almoco: 'Almoço', lanche: 'Lanche', jantar: 'Jantar', ceia: 'Ceia' };
-  const resumo = [], agua = [], refeicoes = [], treinos = [];
-
-  days.forEach(function (k) {
-    const day = d.days[k], W = day.water || [], M = day.meals || [], T = day.workouts || [];
-    let ml = 0, kcal = 0, p = 0, c = 0, f = 0, vol = 0;
-    W.forEach(function (w) { ml += w.ml; agua.push([date(k), hora(w.t), w.ml]); });
-    M.forEach(function (m) {
-      kcal += +m.kcal || 0; p += +m.p || 0; c += +m.c || 0; f += +m.f || 0;
-      const itens = (m.items || []).map(function (i) { return i.manual ? i.name : i.name + ' (' + i.qty + ' ' + (i.unit === 'g' ? 'g' : i.unit) + ')'; }).join('; ');
-      refeicoes.push([date(k), hora(m.t), TIPOS[m.type] || m.type, m.name, Math.round(+m.kcal || 0), r1(m.p), r1(m.c), r1(m.f), itens]);
-    });
-    T.forEach(function (w) {
-      const dur = Math.round((w.end - w.start) / 60000);
-      w.exercises.forEach(function (e) {
-        e.sets.forEach(function (s, i) {
-          vol += (+s.kg || 0) * (+s.reps || 0);
-          treinos.push([date(k), w.name, hora(w.start), dur, e.name, i + 1, +s.kg || 0, +s.reps || 0]);
-        });
-      });
-    });
-    resumo.push([date(k), ml, t ? t.water : '', Math.round(kcal), r1(p), r1(c), r1(f), T.length, Math.round(vol)]);
-  });
-
-  put_('Resumo', ['Data', 'Água (ml)', 'Meta água', 'Kcal', 'Proteína (g)', 'Carbo (g)', 'Gordura (g)', 'Treinos', 'Volume (kg)'], resumo, [1]);
-  put_('Água', ['Data', 'Hora', 'ml'], agua, [1]);
-  put_('Refeições', ['Data', 'Hora', 'Refeição', 'Nome', 'Kcal', 'Proteína (g)', 'Carbo (g)', 'Gordura (g)', 'Alimentos'], refeicoes, [1]);
-  put_('Treinos', ['Data', 'Treino', 'Início', 'Duração (min)', 'Exercício', 'Série', 'Kg', 'Reps'], treinos, [1]);
-
-  const pf = d.profile || {}, perfil = [
-    ['Sexo', pf.sex === 'f' ? 'Feminino' : pf.sex === 'm' ? 'Masculino' : ''], ['Idade', pf.age || ''], ['Altura (cm)', pf.height || ''],
-    ['Peso (kg)', pf.weight || ''], ['% gordura', pf.bodyfat || ''], ['Fator de atividade', pf.activity || ''], ['Objetivo', pf.goal || '']
-  ];
-  if (t) perfil.push(['Meta água (ml)', t.water], ['Meta kcal', t.kcal], ['Meta proteína (g)', t.p], ['Meta carbo (g)', t.c], ['Meta gordura (g)', t.f]);
-  perfil.push(['Atualizado em', new Date()]);
-  put_('Perfil', ['Campo', 'Valor'], perfil, []);
-}
-
-function put_(name, headers, rows, dateCols) {
-  const ss = SpreadsheetApp.getActive();
-  const sh = ss.getSheetByName(name) || ss.insertSheet(name);
-  sh.clearContents();
-  const all = [headers].concat(rows);
-  sh.getRange(1, 1, all.length, headers.length).setValues(all);
-  sh.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#1f6feb').setFontColor('#ffffff');
-  sh.setFrozenRows(1);
-  dateCols.forEach(function (c) { if (rows.length) sh.getRange(2, c, rows.length, 1).setNumberFormat('dd/mm/yyyy'); });
-}
-
-/* ---------- mesclagem (mesma função usada no app) ---------- */
-__MERGE__
-</script>
 
 <script src="config.js"></script>
 <script>
@@ -1160,7 +987,7 @@ function load() {
   catch (e) { return memoryFallback || DEFAULT(); }
 }
 function saveLocal() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { memoryFallback = S; } }
-function save() { S.updatedAt = Date.now(); saveLocal(); scheduleSync(); cloudSchedule(); }
+function save() { S.updatedAt = Date.now(); saveLocal(); markSheets(); cloudSchedule(); }
 const tomb = id => { S.deleted[id] = Date.now(); };   // marca exclusão (para sincronizar)
 const untomb = id => { delete S.deleted[id]; };
 let S = load();
@@ -1335,7 +1162,6 @@ function renderProfileMenu() {
   const mode = document.documentElement.dataset.theme;
   $('#subLook').textContent = LOOK_NAMES[(look.glass ? 'glass-' : '') + mode] + (look.auto ? ' · automático' : '');
   $('#subNotif').textContent = [st.mot && 'Motivação', st.rem && 'Água', st.meals.on && 'Refeições'].filter(Boolean).join(' · ') || 'Desativadas';
-  $('#subSheets').textContent = st.sync.url && st.sync.token ? 'Conectado' + (st.sync.lastAt ? ' · ' + hhmm(st.sync.lastAt) : '') : 'Não conectado';
 }
 $$('nav.tabs button').forEach(b => b.onclick = () => showView(b.dataset.view));
 
@@ -1885,42 +1711,6 @@ $('#remSave').onclick = async () => {
 };
 $('#exactBtn').onclick = async () => { try { await LN.changeExactNotificationSetting(); fillReminders(); } catch (e) {} };
 
-/* ============ Backup ============ */
-const backupJSON = () => JSON.stringify({ app: 'aquafit', exportedAt: new Date().toISOString(), data: { ...S, settings: { ...S.settings, ai: { ...S.settings.ai, key: '' }, sync: undefined } } });
-function importData(txt) {
-  try {
-    const j = JSON.parse(txt), data = j.data || j;
-    if (!data || typeof data.days !== 'object') throw 0;
-    const key = S.settings.ai.key, sync = S.settings.sync;
-    S = migrate(data); if (!S.settings.ai.key) S.settings.ai.key = key; S.settings.sync = sync;
-    save(); fillProfileForm(); renderTargets(); fillReminders(); renderToday(); applyNotifications();
-    toast('Backup importado ✓'); return true;
-  } catch (e) { toast('Arquivo de backup inválido'); return false; }
-}
-$('#exportFile').onclick = async () => {
-  const filename = `aquafit-backup-${todayKey()}.json`, data = backupJSON();
-  const dl = window.claude && window.claude.use ? await window.claude.use('downloads').catch(() => null) : null;
-  if (dl) { try { await dl.save({ filename, data }); } catch (e) { toast('Download cancelado'); } return; }
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([data], { type: 'application/json' })); a.download = filename; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  if (LN) toast('No celular, prefira "Copiar backup"');
-};
-$('#importFileBtn').onclick = () => $('#importFile').click();
-$('#importFile').onchange = e => { const file = e.target.files[0]; if (!file) return; file.text().then(importData); e.target.value = ''; };
-$('#copyBackup').onclick = async () => {
-  try { await navigator.clipboard.writeText(backupJSON()); toast('Backup copiado — cole no outro aparelho'); }
-  catch (e) { const ta = document.createElement('textarea'); ta.value = backupJSON(); document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); toast('Backup copiado'); }
-};
-$('#pasteBackup').onclick = () => { $('#pasteForm').reset(); $('#dlgPaste').showModal(); };
-$('#pasteForm').onsubmit = e => { e.preventDefault(); if (importData(e.target.json.value)) $('#dlgPaste').close(); };
-$('#resetAll').onclick = () => $('#dlgReset').showModal();
-$('#resetForm').onsubmit = e => {
-  e.preventDefault(); $('#dlgReset').close();
-  S = DEFAULT(); S.settings.rem = false; S.settings.meals.on = false; S.settings.mot = false; save();
-  applyNotifications().finally(() => { S = DEFAULT(); save(); location.reload(); });
-};
-
 /* ============ Treinos ============
    S.active = treino em andamento {id, start, name, rest, exercises:[{name, sets:[{kg, reps, done}]}]}
    Treinos finalizados ficam em S.days[dia].workouts */
@@ -2162,12 +1952,9 @@ $('#restPause').onclick = pauseRest;
 $('#restStop').onclick = () => stopRest();
 setInterval(tickRest, 250);
 
-/* ============ Google Sheets (sincronização) ============
-   A planilha recebe um Apps Script que funciona como API (doPost). Cada sincronização envia o estado
-   local; o script mescla com o que já está salvo, grava as abas legíveis e devolve o resultado mesclado.
-   Mesclagem: registros (água, refeições, treinos) unidos por id; exclusões propagadas por "lápides";
-   perfil/metas/configurações ficam com a versão editada por último. Chave da IA e config. do Sheets
-   nunca saem do aparelho. */
+/* ============ Mesclagem de estados ============
+   Usada na sincronização com a conta (Firestore): registros (água, refeições, treinos) unidos por id;
+   exclusões propagadas por "lápides"; perfil/metas/configurações ficam com a versão editada por último. */
 function mergeState(base, inc) {
   if (!inc) return base;
   if (!base) return inc;
@@ -2204,114 +1991,36 @@ function mergeState(base, inc) {
   out.updatedAt = Math.max(base.updatedAt || 0, inc.updatedAt || 0);
   return out;
 }
-const syncCfg = () => S.settings.sync;
-const syncOn = () => !!(syncCfg().url && syncCfg().token);
-function newToken() {
-  const a = new Uint8Array(18); (window.crypto || {}).getRandomValues ? crypto.getRandomValues(a) : a.forEach((_, i) => a[i] = Math.random() * 256);
-  return 'af_' + [...a].map(b => b.toString(36).padStart(2, '0')).join('').slice(0, 28);
-}
-function gsScript() {
-  if (!syncCfg().token) { syncCfg().token = newToken(); saveLocal(); }
-  return $('#gsTemplate').textContent.trim().replace('__TOKEN__', syncCfg().token).replace('__MERGE__', mergeState.toString());
-}
+/* ============ Planilha central (Google Sheets) ============
+   A cada 30 s, se houve algo novo, envia os dados do usuário logado para a planilha central (Apps Script),
+   autenticado pela conta Firebase. A planilha é só relatório: os dados do app vêm do Firestore. */
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxkv2Ha8Pgbn_YH87f4j7OOq3ZL2okUElX3Ds5c6DQdkdWUGIJwcZnf6F8xxAYR9kT0lw/exec';
+const SHEETS_DIRTY = 'fitpro:sheetsDirty';
+let sheetsDirty = !!localStorage.getItem(SHEETS_DIRTY), sheetsBusy = false, lastIdToken = null;
+function markSheets() { sheetsDirty = true; try { localStorage.setItem(SHEETS_DIRTY, '1'); } catch (e) {} }
+function sheetsSent() { sheetsDirty = false; try { localStorage.removeItem(SHEETS_DIRTY); } catch (e) {} }
 const payloadState = () => { const st = JSON.parse(JSON.stringify(S)); delete st.settings.ai; delete st.settings.sync; return st; };
-const syncBody = () => JSON.stringify({ token: syncCfg().token, action: 'sync', data: payloadState(), targets: targets(), tz: Intl.DateTimeFormat().resolvedOptions().timeZone });
-
-let syncing = false, syncTimer = null, syncDirty = false, syncErr = '';
-function scheduleSync() {
-  if (!syncOn()) return;
-  syncDirty = true; clearTimeout(syncTimer);
-  syncTimer = setTimeout(() => syncNow(), 4000);
-}
-async function syncCall(body) {
-  const res = await fetch(syncCfg().url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body, redirect: 'follow' });
-  const txt = await res.text();
-  let j; try { j = JSON.parse(txt); } catch (e) { throw new Error(/<html/i.test(txt) ? 'Acesso negado — implante com acesso "Qualquer pessoa"' : 'Resposta inválida'); }
-  if (!j.ok) throw new Error(j.error === 'token' ? 'Token diferente — copie o script de novo' : j.error);
-  return j;
-}
-async function syncNow(manual) {
-  if (!syncOn()) return false;
-  if (syncing) { syncDirty = true; return false; }
-  syncing = true; syncDirty = false; syncErr = ''; clearTimeout(syncTimer); renderSync();
+const sheetsBody = tok => JSON.stringify({ action: 'push', idToken: tok, name: (session() || {}).name || '', data: payloadState(), targets: targets(), tz: Intl.DateTimeFormat().resolvedOptions().timeZone });
+async function pushSheets() {
+  if (!sheetsDirty || sheetsBusy || !session() || !FIREBASE_CONFIG || navigator.onLine === false) return;
+  sheetsBusy = true; sheetsDirty = false; // o que mudar durante o envio fica para o próximo ciclo
   try {
-    const before = JSON.stringify([S.profile, S.override, S.settings.rem, S.settings.start, S.settings.end, S.settings.every, S.settings.meals, S.settings.mot]);
-    const j = await syncCall(syncBody());
-    if (j.data) S = migrate(mergeState(S, j.data)); // mescla de novo: preserva o que mudou durante o envio
-    syncCfg().lastAt = Date.now(); if (j.url) syncCfg().sheetUrl = j.url;
-    saveLocal(); refreshAfterSync(before);
-    if (manual) toast('Sincronizado ✓');
-    return true;
-  } catch (e) {
-    syncErr = /Failed to fetch|NetworkError|Load failed/i.test(e.message) ? 'Sem conexão' : e.message;
-    if (manual) toast('⚠️ ' + syncErr);
-    return false;
-  } finally {
-    syncing = false; renderSync();
-    if (syncDirty) scheduleSync();
-  }
+    const { auth } = await loadFirebase(), user = auth.currentUser || await authReady();
+    if (!user) throw new Error('sem login');
+    lastIdToken = await user.getIdToken();
+    const res = await fetch(SHEETS_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: sheetsBody(lastIdToken), redirect: 'follow' });
+    const j = await res.json().catch(() => ({}));
+    if (!j.ok) throw new Error(j.error || 'HTTP ' + res.status);
+    if (!sheetsDirty) sheetsSent();
+  } catch (e) { sheetsDirty = true; console.warn('planilha', e); }
+  finally { sheetsBusy = false; }
 }
-function refreshAfterSync(before) {
-  const after = JSON.stringify([S.profile, S.override, S.settings.rem, S.settings.start, S.settings.end, S.settings.every, S.settings.meals, S.settings.mot]);
-  const typing = document.activeElement && /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName);
-  renderToday();
-  if (!typing) { fillProfileForm(); fillReminders(); }
-  renderTargets();
-  if (!$('#v-treino').hidden && $('#v-treino').classList.contains('on') && !(typing && $('#wkActive').contains(document.activeElement))) renderWorkout();
-  if ($('#v-hist').classList.contains('on')) renderHist();
-  if (after !== before && LN) applyNotifications();
-}
-function renderSync() {
-  const on = syncOn(), c = syncCfg();
-  $('#syncSetup').hidden = on; $('#syncOn').hidden = !on;
-  $('#syncDot').hidden = !on;
-  const dot = $('#syncDot');
-  dot.classList.toggle('busy', syncing); dot.classList.toggle('err', !!syncErr && !syncing); dot.classList.toggle('ok', !syncErr && !syncing && !!c.lastAt);
-  $('#syncDotTxt').textContent = syncing ? '' : syncErr ? '!' : c.lastAt ? hhmm(c.lastAt) : '';
-  dot.title = syncErr || (c.lastAt ? 'Sincronizado às ' + hhmm(c.lastAt) : 'Sincronizar');
-  $('#syncStatus').textContent = !on ? '' : syncing ? '⟳' : syncErr ? '⚠️ ' + syncErr : c.lastAt ? '✓ ' + hhmm(c.lastAt) : '';
-  if (c.sheetUrl) $('#syncOpen').href = c.sheetUrl;
-  $('#syncOpen').style.display = c.sheetUrl ? '' : 'none';
-}
-$('#copyScript').onclick = async () => {
-  const code = gsScript();
-  try { await navigator.clipboard.writeText(code); }
-  catch (e) { const ta = document.createElement('textarea'); ta.value = code; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
-  toast('Script copiado ✓ — cole no Apps Script');
-};
-$('#syncConnect').onclick = async () => {
-  let [url, tok] = $('#syncUrl').value.trim().split('#');
-  if (!/^https:\/\/script\.google(usercontent)?\.com\/.+/.test(url || '')) { toast('Cole a URL do app da Web (script.google.com…/exec)'); return; }
-  if (tok && /^af_/.test(tok)) syncCfg().token = tok; // código vindo de outro aparelho
-  if (!syncCfg().token) { toast('Copie o script primeiro (passo 2)'); return; }
-  syncCfg().url = url; saveLocal();
-  $('#syncConnect').disabled = true; $('#syncConnect').textContent = 'Conectando…';
-  const ok = await syncNow();
-  $('#syncConnect').disabled = false; $('#syncConnect').textContent = 'Conectar';
-  if (ok) toast('Planilha conectada ✓');
-  else { toast('⚠️ ' + syncErr, null, '', 6000); syncCfg().url = ''; saveLocal(); renderSync(); $('#syncStatus').textContent = '⚠️ ' + syncErr; }
-};
-$('#syncNowBtn').onclick = () => syncNow(true);
-$('#syncCode').onclick = async () => {
-  const code = syncCfg().url + '#' + syncCfg().token;
-  try { await navigator.clipboard.writeText(code); }
-  catch (e) { const ta = document.createElement('textarea'); ta.value = code; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
-  toast('Código copiado ✓ — cole no outro aparelho');
-};
-$('#syncDot').onclick = () => syncNow(true);
-$('#syncOff').onclick = () => {
-  const prev = { ...syncCfg() };
-  S.settings.sync = { url: '', token: prev.token, lastAt: 0, sheetUrl: '' }; saveLocal(); renderSync();
-  toast('Planilha desconectada', () => { S.settings.sync = prev; saveLocal(); renderSync(); });
-};
-// ao sair do app: envia o que estiver pendente (sendBeacon sobrevive ao fechamento)
+setInterval(pushSheets, 30000);
+// ao sair do app: envia o pendente (sendBeacon sobrevive ao fechamento)
 document.addEventListener('visibilitychange', () => {
-  if (!syncOn()) return;
-  if (document.visibilityState === 'hidden' && syncDirty && !syncing) {
-    try { if (navigator.sendBeacon(syncCfg().url, new Blob([syncBody()], { type: 'text/plain;charset=utf-8' }))) { syncDirty = false; clearTimeout(syncTimer); } } catch (e) {}
-  } else if (document.visibilityState === 'visible' && Date.now() - (syncCfg().lastAt || 0) > 60000) syncNow();
+  if (document.visibilityState !== 'hidden' || !sheetsDirty || !lastIdToken || !session()) return;
+  try { if (navigator.sendBeacon(SHEETS_URL, new Blob([sheetsBody(lastIdToken)], { type: 'text/plain;charset=utf-8' }))) sheetsSent(); } catch (e) {}
 });
-setInterval(() => { if (syncOn() && document.visibilityState === 'visible' && Date.now() - (syncCfg().lastAt || 0) > 5 * 60000) syncNow(); }, 60000);
 
 /* ============ Conta (Firebase Auth + Firestore) ============
    Cadastro/login por e-mail e senha, redefinição de senha por e-mail e sincronização dos dados entre
@@ -2476,14 +2185,14 @@ function adoptLocal(uid) { // dados locais de outra conta não se misturam
 async function enterAccount(user) {
   adoptLocal(user.uid);
   setSession({ uid: user.uid, email: user.email, name: user.displayName || '', photo: (session() || {}).photo || '' });
-  await cloudSync(true);
+  await cloudSync(true); markSheets();
   showAuth(false); refreshAll();
   if (!S.profile) { showView('perfil'); openPane('dados'); } else showView('hoje');
   if (LN) applyNotifications();
   toast(`Olá${session().name ? ', ' + session().name.split(' ')[0] : ''}! 👋`);
 }
 function refreshAll() {
-  fillProfileForm(); renderTargets(); fillReminders(); renderToday(); renderSync();
+  fillProfileForm(); renderTargets(); fillReminders(); renderToday();
   if ($('#v-perfil').classList.contains('on')) openPane(null);
 }
 async function logout() {
@@ -2492,7 +2201,8 @@ async function logout() {
   try { const { U, auth } = await loadFirebase(); await U.signOut(auth); } catch (e) {}
   Object.assign(S.settings, { rem: false, mot: false }); S.settings.meals.on = false;
   await applyNotifications().catch(() => {}); // cancela os lembretes desta conta
-  ['fitpro:session', CLOUD_KEY, OWNER_KEY, KEY].forEach(k => localStorage.removeItem(k));
+  await pushSheets();
+  ['fitpro:session', CLOUD_KEY, OWNER_KEY, KEY, SHEETS_DIRTY].forEach(k => localStorage.removeItem(k));
   location.reload();
 }
 
@@ -2595,8 +2305,7 @@ async function bootAuth() {
 }
 
 /* ============ Inicialização ============ */
-fillProfileForm(); renderTargets(); fillReminders(); renderToday(); renderSync();
-if (syncOn()) setTimeout(() => syncNow(), 800);
+fillProfileForm(); renderTargets(); fillReminders(); renderToday();
 if (!S.profile && !(FIREBASE_CONFIG && !session())) { showView('perfil'); openPane('dados'); }
 else if (LN) applyNotifications(); // reagenda ao abrir (garante após atualização do app)
 bootAuth();

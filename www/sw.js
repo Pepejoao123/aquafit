@@ -1,5 +1,5 @@
 // Service worker: deixa o app funcionando offline quando instalado como PWA (PC/celular via navegador)
-const CACHE = 'fitpro-v2';
+const CACHE = 'fitpro-v3';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png'];
 
 self.addEventListener('install', e => {

@@ -1,6 +1,6 @@
 {
   "appId": "com.aquafit.app",
-  "appName": "AquaFit",
+  "appName": "FitPro",
   "webDir": "www",
   "android": {
     "backgroundColor": "#000000"
@@ -8,7 +8,7 @@
   "plugins": {
     "LocalNotifications": {
       "smallIcon": "ic_stat_water",
-      "iconColor": "#1a73e8"
+      "iconColor": "#22c55e"
     }
   }
 }

@@ -1,6 +1,6 @@
 // Ajusta o projeto Android gerado pelo Capacitor:
 //  - permissão de câmera (foto do prato direto do app)
-//  - ícone monocromático (gota) para as notificações
+//  - ícone monocromático (halter) para as notificações
 //  - alarmes exatos (lembretes e fim do descanso no horário certo)
 //  - plugin nativo RestTimer (notificação com contagem regressiva ao vivo)
 const fs = require('fs');
@@ -32,7 +32,7 @@ fs.writeFileSync(path.join(drawable, 'ic_stat_water.xml'), `<?xml version="1.0" 
     android:width="24dp" android:height="24dp"
     android:viewportWidth="24" android:viewportHeight="24">
     <path android:fillColor="#FFFFFFFF"
-        android:pathData="M12,2.5C12,2.5 5.5,9.6 5.5,14.5A6.5,6.5 0,0 0,18.5 14.5C18.5,9.6 12,2.5 12,2.5Z"/>
+        android:pathData="M2,9.5L4,8.8L4.6,15.2L2.4,15.6Z M5.2,6.4L7.6,6.2L7.4,17.8L5,16.4Z M7.8,11L16.2,11L16.2,13L7.8,13Z M16.4,6.2L18.8,6.4L19,16.4L16.6,17.8Z M20,8.8L22,9.5L21.6,15.6L19.4,15.2Z"/>
 </vector>
 `);
 // plugin nativo + MainActivity que o registra

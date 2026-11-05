@@ -1,4 +1,4 @@
-# AquaFit — Água e Nutrição
+# FitPro — Treino, Água e Nutrição
 
 App de controle de hidratação, refeições e macronutrientes. Um único código roda como:
 
@@ -22,7 +22,7 @@ capacitor.config.json
 
 1. Crie um repositório no GitHub e suba esta pasta (branch `main`).
 2. Em **Settings → Pages → Source**, selecione **GitHub Actions** (para a versão web).
-3. A cada push, o workflow **Build APK** roda. Ao terminar, abra a execução em **Actions** e baixe o artefato **AquaFit-apk** (um zip com `app-debug.apk`).
+3. A cada push, o workflow **Build APK** roda. Ao terminar, abra a execução em **Actions** e baixe o artefato **FitPro-apk** (um zip com `app-debug.apk`).
 4. Passe o APK para o celular e instale (permita "instalar apps de fontes desconhecidas").
 
 A versão web fica em `https://<seu-usuario>.github.io/<repositorio>/` — abra no PC ou no celular. No Chrome do PC/Android dá para "Instalar app".

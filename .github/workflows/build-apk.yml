@@ -22,6 +22,11 @@ jobs:
 
       # O runner ubuntu-latest já vem com o Android SDK instalado (ANDROID_HOME).
 
+      - name: Chave da IA (secret GEMINI_API_KEY)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node -e "require('fs').writeFileSync('www/config.js','window.FITPRO_CONFIG='+JSON.stringify({geminiKey:process.env.GEMINI_API_KEY||''})+';')"
+
       - name: Instalar dependências
         run: npm install
 
@@ -55,13 +60,13 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
-          mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/AquaFit.apk
+          mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/FitPro.apk
 
       - name: Publicar APK
         uses: actions/upload-artifact@v4
         with:
-          name: AquaFit-apk
-          path: android/app/build/outputs/apk/debug/AquaFit.apk
+          name: FitPro-apk
+          path: android/app/build/outputs/apk/debug/FitPro.apk
 
   # Versão web (PC e celular pelo navegador) no GitHub Pages
   # Ative antes em Settings → Pages → Source: GitHub Actions
@@ -76,6 +81,11 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Chave da IA (secret GEMINI_API_KEY)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node -e "require('fs').writeFileSync('www/config.js','window.FITPRO_CONFIG='+JSON.stringify({geminiKey:process.env.GEMINI_API_KEY||''})+';')"
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -2,3 +2,6 @@ node_modules/
 android/
 *.keystore
 ANDROID_DEBUG_KEYSTORE.txt
+
+# chave da IA (gerado no build a partir do secret GEMINI_API_KEY)
+www/config.js

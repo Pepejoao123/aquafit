@@ -405,23 +405,45 @@ body.authing{overflow:hidden}
 .done-ico{font-size:58px;text-align:center;margin:36px 0 8px;animation:pop .8s var(--ease)}
 .pf-avatar{position:relative;overflow:hidden}
 .pf-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-/* ================= Widgets (prévia) ================= */
+/* ================= Widgets (prévia) =================
+   Cores iguais às dos layouts nativos (scripts/patch-android.js). Nos temas glass a prévia fica
+   sobre um "papel de parede" colorido para mostrar a transparência. */
 .wg-card{margin-bottom:12px}
-.wg-prev{background:#0c0d10;border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:14px;color:#fff;margin-bottom:10px;box-shadow:var(--shadow)}
-.wg-ph{margin:0;font-size:12px;font-style:italic;color:rgba(255,255,255,.9);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.wg-wall{border-radius:34px;margin-bottom:10px;transition:background .3s,padding .3s}
+#wgPane:is([data-theme=glass],[data-theme=glasslight]) .wg-wall{padding:14px;background:linear-gradient(135deg,#1d4ed8,#7c3aed 55%,#db2777)}
+.wg-prev{--wi:#fff;--ws:rgba(255,255,255,.9);--wl:#5cf25c;--ww:#4d8dff;--wr:#22d3ee;--wx:#ff5a5f;--wk:#5cf25c;--wp:#ff6b7d;--wc:#fbbf24;--wf:#a78bfa;--wt:rgba(255,255,255,.15);--wb:rgba(255,255,255,.12);--wbb:transparent;
+  background:#0c0d10;border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:14px;color:var(--wi);box-shadow:var(--shadow)}
+#wgPane[data-theme=glass] .wg-prev{--wi:#fff;--ws:rgba(255,255,255,.95);--wl:#7cff7c;--ww:#7fb0ff;--wr:#67e8f9;--wx:#ff8a8e;--wk:#7cff7c;--wp:#ff8c9a;--wc:#fcd34d;--wf:#c4b5fd;--wt:rgba(255,255,255,.2);
+  --wb:linear-gradient(rgba(255,255,255,.25),rgba(255,255,255,.1));--wbb:rgba(255,255,255,.3);
+  background:linear-gradient(rgba(255,255,255,.22),rgba(255,255,255,.04) 50%,rgba(255,255,255,.08)),rgba(20,22,28,.45);border-color:rgba(255,255,255,.4);border-radius:26px}
+#wgPane[data-theme=glasslight] .wg-prev{--wi:#0f1115;--ws:rgba(15,17,21,.85);--wl:#15803d;--ww:#2563eb;--wr:#0e7490;--wx:#dc2626;--wk:#15803d;--wp:#e11d48;--wc:#b45309;--wf:#7c3aed;--wt:rgba(15,17,21,.12);
+  --wb:linear-gradient(rgba(255,255,255,.8),rgba(255,255,255,.5));--wbb:#fff;
+  background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.1) 50%,rgba(255,255,255,.2)),rgba(255,255,255,.65);border-color:rgba(255,255,255,.9);border-radius:26px}
+.wg-ph{margin:0;font-size:12px;font-style:italic;color:var(--ws);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .wg-row{display:flex;align-items:center;gap:10px;margin-top:8px}
 .wg-row .grow{flex:1;min-width:0}
-.wg-row small{display:block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#5cf25c}
+.wg-row small{display:block;font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--wl)}
 .wg-row b{font-size:17px}
 .wg-ico{font-size:22px}
-.wg-pct{color:#4d8dff;font-size:15px}
-.wg-bar{height:8px;border-radius:6px;background:rgba(77,141,255,.2);margin-top:8px;overflow:hidden}
-.wg-bar i{display:block;height:100%;background:#4d8dff;border-radius:6px}
+.wg-pct{color:var(--ww);font-size:15px}
+.wg-pct.kc{color:var(--wk)}
+.wg-bar{height:8px;border-radius:6px;background:var(--wt);margin-top:8px;overflow:hidden}
+.wg-bar i{display:block;height:100%;background:var(--ww);border-radius:6px}
+.wg-bar.kc{height:6px}
+.wg-bar.kc i{background:var(--wk)}
+.wg-macros{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.wg-m b{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wg-m i{display:block;height:4px;border-radius:4px;background:var(--wt);margin-top:3px;overflow:hidden}
+.wg-m u{display:block;height:100%;border-radius:4px}
+.wg-m.p b{color:var(--wp)}.wg-m.p u{background:var(--wp)}
+.wg-m.c b{color:var(--wc)}.wg-m.c u{background:var(--wc)}
+.wg-m.f b{color:var(--wf)}.wg-m.f u{background:var(--wf)}
 .wg-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .wg-btns.rest{grid-template-columns:repeat(4,1fr);gap:6px}
-.wg-btns span{height:38px;border-radius:14px;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:13px;font-weight:700;color:#4d8dff}
-.wg-btns.rest span{color:#22d3ee}
-.wg-btns.rest span:last-child{color:#ff5a5f}
+.wg-btns span{height:38px;border-radius:14px;background:var(--wb);border:1px solid var(--wbb);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--ww)}
+.wg-btns.rest span{color:var(--wr)}
+.wg-btns.rest span:last-child{color:var(--wx)}
+.wg-btns.meal span{color:var(--wk);height:36px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -812,18 +834,29 @@ body.authing{overflow:hidden}
     </div>
 
     <!-- Widgets -->
-    <div class="pane" data-p="widgets" hidden>
+    <div class="pane" data-p="widgets" id="wgPane" hidden>
       <div class="pane-head"><button type="button" class="back" data-back aria-label="Voltar">‹</button><h2>Widgets</h2></div>
-      <p class="small muted" style="margin:0 4px 12px">Acompanhe sem abrir o app. Os dois mostram a frase do dia no topo.</p>
+      <p class="small muted" style="margin:0 4px 12px">Acompanhe sem abrir o app. Todos mostram a frase do dia no topo.</p>
+      <label style="margin:0 4px 6px">Tema dos widgets</label>
+      <div class="seg" style="margin-bottom:14px">
+        <label><input type="radio" name="wgtheme" value="dark" data-wgtheme>Escuro</label>
+        <label><input type="radio" name="wgtheme" value="glass" data-wgtheme>Liquid Glass</label>
+        <label><input type="radio" name="wgtheme" value="glasslight" data-wgtheme>Glass claro</label>
+      </div>
       <div class="wg-card">
-        <div class="wg-prev"><p class="wg-ph" data-wg-phrase></p><div class="wg-row"><span class="wg-ico">💧</span><span class="grow"><small>HIDRATAÇÃO</small><b id="wgWater">0 ml de 2,5 L</b></span><b class="wg-pct" id="wgPct">0%</b></div><div class="wg-bar"><i id="wgBar"></i></div><div class="wg-btns"><span>+250 ml</span><span>+500 ml</span></div></div>
+        <div class="wg-wall"><div class="wg-prev"><p class="wg-ph" data-wg-phrase></p><div class="wg-row"><span class="wg-ico">🍽️</span><span class="grow"><small>NUTRIÇÃO DE HOJE</small><b id="wgKcal">0 kcal</b></span><b class="wg-pct kc" id="wgKcalPct"></b></div><div class="wg-bar kc"><i id="wgKcalBar"></i></div><div class="wg-macros" id="wgMacros"></div><div class="wg-btns meal"><span>📷 Foto do prato</span><span>＋ Refeição</span></div></div></div>
+        <button type="button" class="btn primary block" data-pin="meal">＋ Adicionar à tela inicial</button>
+      </div>
+      <div class="wg-card">
+        <div class="wg-wall"><div class="wg-prev"><p class="wg-ph" data-wg-phrase></p><div class="wg-row"><span class="wg-ico">💧</span><span class="grow"><small>HIDRATAÇÃO</small><b id="wgWater">0 ml de 2,5 L</b></span><b class="wg-pct" id="wgPct">0%</b></div><div class="wg-bar"><i id="wgBar"></i></div><div class="wg-btns"><span>+250 ml</span><span>+500 ml</span></div></div></div>
         <button type="button" class="btn primary block" data-pin="water">＋ Adicionar à tela inicial</button>
       </div>
       <div class="wg-card">
-        <div class="wg-prev"><p class="wg-ph" data-wg-phrase></p><div class="wg-row"><span class="wg-ico">⏱️</span><span class="grow"><small>DESCANSO</small><b style="color:#22d3ee;font-size:21px">1:30</b></span></div><div class="wg-btns rest"><span>1:00</span><span>1:30</span><span>2:00</span><span>✕</span></div></div>
+        <div class="wg-wall"><div class="wg-prev"><p class="wg-ph" data-wg-phrase></p><div class="wg-row"><span class="wg-ico">⏱️</span><span class="grow"><small>DESCANSO</small><b style="color:#22d3ee;font-size:21px">1:30</b></span></div><div class="wg-btns rest"><span>1:00</span><span>1:30</span><span>2:00</span><span>✕</span></div></div></div>
         <button type="button" class="btn primary block" data-pin="rest">＋ Adicionar à tela inicial</button>
       </div>
-      <p class="small muted" style="margin:14px 4px 0">Se o botão não funcionar no seu celular: segure um espaço vazio da tela inicial → <b>Widgets</b> → <b>FitPro</b> e arraste o widget.</p>
+      <p class="small muted" style="margin:14px 4px 0"><b>Tamanho:</b> segure o widget na tela inicial e arraste as bordas. A partir de 2x2 ele mostra uma versão compacta; com 3 colunas ou mais, a completa.</p>
+      <p class="small muted" style="margin:8px 4px 0">Se o botão não funcionar no seu celular: segure um espaço vazio da tela inicial → <b>Widgets</b> → <b>FitPro</b> e arraste o widget.</p>
     </div>
 
     <!-- Conta -->
@@ -998,7 +1031,7 @@ const DEFAULT = () => ({
   version: 2, profile: null, override: null, days: {}, favs: [], active: null, updatedAt: 0, deleted: {},
   settings: {
     rem: true, start: 8, end: 22, every: 30, rest: 90,
-    meals: { on: true, cafe: '08:10', almoco: '12:30', jantar: '20:00' }, mot: true,
+    meals: { on: true, cafe: '08:10', almoco: '12:30', jantar: '20:00' }, mot: true, widgetTheme: 'dark',
     ai: { provider: 'gemini', key: '', model: '' },
     sync: { url: '', token: '', lastAt: 0, sheetUrl: '' } // local: não sincroniza
   }
@@ -1176,14 +1209,23 @@ function openPane(p) {
   $$('.pane').forEach(x => x.hidden = x.dataset.p !== p);
   if (!p) renderProfileMenu();
   if (p === 'conta') fillAccount();
-  if (p === 'widgets') {
-    const t = targets(), w = sums(peekDay(todayKey())).water, g = t ? t.water : 2500;
-    const L = v => v >= 1000 ? (v / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' L' : v + ' ml';
-    $$('[data-wg-phrase]').forEach(e => e.textContent = phraseFor(todayKey()));
-    $('#wgWater').textContent = `${L(w)} de ${L(g)}`; $('#wgPct').textContent = Math.min(100, Math.round(w / g * 100)) + '%';
-    $('#wgBar').style.width = Math.min(100, w / g * 100) + '%';
-  }
+  if (p === 'widgets') renderWidgetPane();
   window.scrollTo(0, 0);
+}
+function renderWidgetPane() {
+  const t = targets(), sm = sums(peekDay(todayKey())), w = sm.water, g = t ? t.water : 2500;
+  const L = v => v >= 1000 ? (v / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' L' : v + ' ml';
+  const th = S.settings.widgetTheme || 'dark', pc = (v, goal) => goal > 0 ? Math.min(100, v / goal * 100) : 0;
+  $$('[data-wgtheme]').forEach(i => i.checked = i.value === th);
+  $('#wgPane').dataset.theme = th;
+  $$('[data-wg-phrase]').forEach(e => e.textContent = phraseFor(todayKey()));
+  $('#wgWater').textContent = `${L(w)} de ${L(g)}`; $('#wgPct').textContent = Math.min(100, Math.round(w / g * 100)) + '%';
+  $('#wgBar').style.width = pc(w, g) + '%';
+  $('#wgKcal').textContent = fmt(Math.round(sm.kcal)) + (t ? ` de ${fmt(t.kcal)}` : '') + ' kcal';
+  $('#wgKcalPct').textContent = t ? Math.round(sm.kcal / t.kcal * 100) + '%' : '';
+  $('#wgKcalBar').style.width = pc(sm.kcal, t && t.kcal) + '%';
+  $('#wgMacros').innerHTML = [['p', 'Prot'], ['c', 'Carbo'], ['f', 'Gord']].map(([k, n]) =>
+    `<span class="wg-m ${k}"><b>${n} ${fmt(Math.round(sm[k]))}${t ? '/' + fmt(t[k]) : ''}g</b><i><u style="width:${pc(sm[k], t && t[k])}%"></u></i></span>`).join('');
 }
 $$('#v-perfil [data-pane]').forEach(b => b.onclick = () => openPane(b.dataset.pane));
 $('#pfHero').onclick = () => openPane(session() ? 'conta' : 'dados');
@@ -1912,8 +1954,9 @@ function beep() {
 const RT = (() => { try { return window.Capacitor && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins.RestTimer; } catch (e) { return null; } })();
 
 /* ============ Widgets da tela inicial (APK) ============
-   O app envia água de hoje, meta, frases e o estado do descanso; o widget devolve a água registrada
-   nele (+250/+500 ml) e o descanso iniciado na tela inicial. */
+   O app envia água, calorias e macros de hoje, metas, frases, tema e o estado do descanso; o widget
+   devolve a água registrada nele (+250/+500 ml), o descanso iniciado na tela inicial e a ação do
+   widget de refeição (📷 foto do prato / ＋ registrar). */
 const WB = (() => { try { return window.Capacitor && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins.FitWidget; } catch (e) { return null; } })();
 let widgetLast = '';
 function widgetSync(stop) {
@@ -1921,7 +1964,10 @@ function widgetSync(stop) {
   const tk = todayKey(), t = targets(), phrases = {};
   for (let i = 0; i < 30; i++) { const k = addDays(tk, i); phrases[k] = phraseFor(k); }
   const running = REST && !REST.doneAt && !REST.paused;
-  const msg = { day: tk, waterMl: sums(peekDay(tk)).water, goalMl: t ? t.water : 2500, phrases: JSON.stringify(phrases),
+  const sm = sums(peekDay(tk)), r1 = v => Math.round(v * 10) / 10;
+  const msg = { day: tk, waterMl: sm.water, goalMl: t ? t.water : 2500, phrases: JSON.stringify(phrases),
+    kcal: Math.round(sm.kcal), p: r1(sm.p), c: r1(sm.c), f: r1(sm.f),
+    goalKcal: t ? t.kcal : 0, goalP: t ? t.p : 0, goalC: t ? t.c : 0, goalF: t ? t.f : 0, theme: S.settings.widgetTheme || 'dark',
     restEnd: running ? REST.end : 0, restTotal: REST ? REST.total : 0, restPausedMs: REST && REST.paused && !REST.doneAt ? Math.round(REST.remain) : 0, restStop: !!stop };
   const key = JSON.stringify(msg);
   if (key === widgetLast) return;
@@ -1942,9 +1988,17 @@ async function widgetPull() {
       REST = { end: r.restEnd, total: r.restTotal || r.restEnd - Date.now(), paused: false, remain: 0, doneAt: 0 };
       tickRest();
     }
+    if ((r.action === 'meal_photo' || r.action === 'meal_add') && $('#auth').hidden && !$('#dlgMeal').open) {
+      setTimeout(() => handleNotification('meal', null, r.action), 400); // widget de refeição: abre o registro (com câmera)
+    }
   } catch (e) { console.warn('widget', e); }
 }
+if (WB) try { WB.addListener('widgetAction', () => widgetPull()); } catch (e) {}
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') widgetPull(); });
+$$('[data-wgtheme]').forEach(i => i.onchange = () => {
+  S.settings.widgetTheme = i.value; save(); renderWidgetPane(); widgetSync();
+  toast('Tema dos widgets atualizado');
+});
 $$('[data-pin]').forEach(b => b.onclick = async () => {
   try { const r = await WB.pin({ kind: b.dataset.pin }); if (!r.ok) toast('Segure a tela inicial → Widgets → FitPro', null, '', 6000); }
   catch (e) { toast('Segure a tela inicial → Widgets → FitPro', null, '', 6000); }

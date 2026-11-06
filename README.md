@@ -89,11 +89,15 @@ Também dá para adicionar alimentos manualmente, sem IA, escolhendo a medida.
 
 ## Widgets da tela inicial (APK)
 
-Perfil → **Widgets** → **Adicionar à tela inicial** (ou segure a tela inicial → Widgets → FitPro). Os dois mostram a **frase do dia** no topo:
+Perfil → **Widgets** → **Adicionar à tela inicial** (ou segure a tela inicial → Widgets → FitPro). Todos mostram a **frase do dia** no topo:
 - **Hidratação**: água de hoje com barra de progresso e botões **+250 ml / +500 ml** (registra sem abrir o app; o app incorpora ao abrir).
 - **Descanso**: contagem regressiva ao vivo e botões **1:00 / 1:30 / 2:00 / ✕**; avisa quando o descanso acaba e o app continua a contagem se estiver aberto.
+- **Refeição**: calorias de hoje × meta, proteína/carbo/gordura com barras, e botões **📷 Foto do prato** (abre o registro direto na câmera, para a IA calcular) e **＋ Refeição**.
 
-Código nativo em `native/` (`WaterWidget`, `RestWidget`, `FitWidgets`, `RestAlarmReceiver`, plugin `FitWidget`); layouts e registros no manifest são gerados por `scripts/patch-android.js`.
+**Tamanhos:** padrão 4x2, redimensionáveis a partir de **2x2** (versão compacta) e sem limite máximo; com 3 colunas ou mais mostram a versão completa.
+**Temas:** Perfil → Widgets → *Tema dos widgets*: **Escuro**, **Liquid Glass** (vidro translúcido escuro) ou **Glass claro**.
+
+Código nativo em `native/` (`WaterWidget`, `RestWidget`, `MealWidget`, `FitWidgets`, `RestAlarmReceiver`, plugin `FitWidget`); os layouts (2 tamanhos × 3 temas), drawables e registros no manifest são gerados por `scripts/patch-android.js`.
 
 ## Contas e sincronização
 

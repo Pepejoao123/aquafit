@@ -1,6 +1,6 @@
 {
   "name": "aquafit",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "description": "FitPro — treino, hidratação, refeições e macronutrientes — PWA + APK Android (Capacitor)",
   "scripts": {

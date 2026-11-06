@@ -6,11 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.RemoteViews;
 
-/** Widget de descanso: frase do dia, contagem regressiva ao vivo e botões 1:00 / 1:30 / 2:00 / parar. */
+/** Widget de descanso: frase do dia, contagem regressiva ao vivo e botões 1:00 / 1:30 / 2:00 / parar (2x2 ou maior). */
 public class RestWidget extends AppWidgetProvider {
 
     static final String ACTION_START = "com.fitpro.widget.REST_START";
@@ -18,7 +19,12 @@ public class RestWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context c, AppWidgetManager m, int[] ids) {
-        for (int id : ids) m.updateAppWidget(id, build(c));
+        for (int id : ids) m.updateAppWidget(id, build(c, m, id));
+    }
+
+    @Override
+    public void onAppWidgetOptionsChanged(Context c, AppWidgetManager m, int id, Bundle o) {
+        m.updateAppWidget(id, build(c, m, id));
     }
 
     @Override
@@ -28,12 +34,15 @@ public class RestWidget extends AppWidgetProvider {
         else if (ACTION_STOP.equals(i.getAction())) FitWidgets.stopRest(c);
     }
 
-    static RemoteViews build(Context c) {
-        RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.widget_rest);
+    static RemoteViews build(Context c, AppWidgetManager m, int id) {
+        return FitWidgets.responsive(c, m, id, "rest", RestWidget::fill);
+    }
+
+    static void fill(Context c, RemoteViews v, boolean small) {
         SharedPreferences p = FitWidgets.prefs(c);
         long now = System.currentTimeMillis();
         long end = p.getLong("restEnd", 0), paused = p.getLong("restPausedMs", 0);
-        v.setTextViewText(R.id.r_phrase, FitWidgets.phrase(c));
+        if (!small) v.setTextViewText(R.id.r_phrase, FitWidgets.phrase(c));
         if (end > now) {
             v.setViewVisibility(R.id.r_chrono, View.VISIBLE);
             v.setViewVisibility(R.id.r_idle, View.GONE);
@@ -50,14 +59,13 @@ public class RestWidget extends AppWidgetProvider {
             } else {
                 boolean justDone = now - p.getLong("restDoneAt", 0) < 60000;
                 v.setTextViewText(R.id.r_label, "DESCANSO");
-                v.setTextViewText(R.id.r_idle, justDone ? "Bora! 💪" : "Pronto para a série");
+                v.setTextViewText(R.id.r_idle, justDone ? "Bora! 💪" : small ? "Pronto" : "Pronto para a série");
             }
         }
         if (FitWidgets.openApp(c) != null) v.setOnClickPendingIntent(R.id.r_root, FitWidgets.openApp(c));
         v.setOnClickPendingIntent(R.id.r_60, FitWidgets.broadcast(c, RestWidget.class, ACTION_START, 60, "sec", 60));
         v.setOnClickPendingIntent(R.id.r_90, FitWidgets.broadcast(c, RestWidget.class, ACTION_START, 90, "sec", 90));
-        v.setOnClickPendingIntent(R.id.r_120, FitWidgets.broadcast(c, RestWidget.class, ACTION_START, 120, "sec", 120));
+        if (!small) v.setOnClickPendingIntent(R.id.r_120, FitWidgets.broadcast(c, RestWidget.class, ACTION_START, 120, "sec", 120));
         v.setOnClickPendingIntent(R.id.r_stop, FitWidgets.broadcast(c, RestWidget.class, ACTION_STOP, 999, "sec", 0));
-        return v;
     }
 }
